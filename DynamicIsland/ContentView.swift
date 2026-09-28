@@ -976,6 +976,13 @@ struct ContentView: View {
                       } else if !coordinator.expandingView.show && vm.notchState == .closed && !shelfState.isEmpty && !vm.hideOnClosed && !lockScreenManager.isLocked && !enableMinimalisticUI {
                           ShelfInlineLiveActivity()
                               .transition(.opacity.animation(.smooth(duration: 0.25)))
+                      } else if vm.notchState == .closed && !vm.hideOnClosed && !lockScreenManager.isLocked && !isCurrentScreenExpansionVisible && !isSneakPeekVisibleOnCurrentScreen {
+                          CodexQuotaLiveActivity(
+                              closedNotchWidth: vm.closedNotchSize.width + (isHovering ? 8 : 0),
+                              height: vm.effectiveClosedNotchHeight + (isHovering ? 8 : 0),
+                              availableWidth: dynamicNotchSize.width - notchHorizontalPadding * 2
+                          )
+                          .transition(closedLiveActivitySwapTransition)
                       } else if !coordinator.expandingView.show && vm.notchState == .closed && (!musicManager.isPlaying && musicManager.isPlayerIdle) && Defaults[.showNotHumanFace] && !vm.hideOnClosed  {
                       } else if !isCurrentScreenExpansionVisible && vm.notchState == .closed && (!musicManager.isPlaying && musicManager.isPlayerIdle) && Defaults[.showNotHumanFace] && !vm.hideOnClosed  {
                           DynamicIslandFaceAnimation().animation(.interactiveSpring, value: musicManager.isPlayerIdle)
